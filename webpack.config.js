@@ -29,10 +29,16 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
+      filename: 'index.html',
     }),
   ],
   devServer: {
-    static: './dist',
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
     port: 8080,
+    hot: true,
+    open: true,
   },
+  mode: 'development',
 };
