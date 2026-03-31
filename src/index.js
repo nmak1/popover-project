@@ -2,15 +2,15 @@ import Popover from './Popover';
 import './styles.css';
 
 const button = document.getElementById('popover-button');
-const popover = new Popover();
+let popover = null;
 
-button.addEventListener('click', () => {
-  popover.show(button, 'Заголовок popover', 'Текст popover');
-});
-
-// Закрытие при клике вне popover
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.popover') && e.target !== button) {
-    popover.hide();
+button.addEventListener('click', (e) => {
+  e.stopPropagation();
+  
+  // Создаем экземпляр popover при клике
+  if (!popover) {
+    popover = new Popover();
   }
+  
+  popover.show(button, 'Заголовок popover', 'Текст popover');
 });

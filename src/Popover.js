@@ -1,6 +1,7 @@
 export default class Popover {
   constructor() {
     this.popoverElement = null;
+    this.handleDocumentClick = this.handleDocumentClick.bind(this);
   }
 
   show(element, title, content) {
@@ -36,12 +37,28 @@ export default class Popover {
     // Позиционирование стрелки
     const arrowRect = arrow.getBoundingClientRect();
     arrow.style.left = `${popoverRect.width / 2 - arrowRect.width / 2}px`;
+    
+    // Добавляем обработчик для закрытия
+    document.addEventListener('click', this.handleDocumentClick);
   }
 
   hide() {
-    if (this.popoverElement) {
+    if (this.popoverElement && this.popoverElement.parentNode) {
       this.popoverElement.remove();
       this.popoverElement = null;
+      document.removeEventListener('click', this.handleDocumentClick);
+    }
+  }
+
+  handleDocumentClick(event) {
+    // Проверяем, был ли клик по кнопке, которая вызвала popover
+    const button = document.getElementById('popover-button');
+    
+    // Если клик не по popover и не по кнопке
+    if (this.popoverElement && 
+        !this.popoverElement.contains(event.target) && 
+        event.target !== button) {
+      this.hide();
     }
   }
 }

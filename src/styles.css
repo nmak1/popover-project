@@ -7,6 +7,7 @@
   z-index: 1000;
   min-width: 200px;
   max-width: 300px;
+  pointer-events: auto; /* Убеждаемся, что popover может получать события */
 }
 
 .popover-header {
@@ -31,4 +32,18 @@
   background-color: #fff;
   border-right: 1px solid rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.btn:hover {
+  background-color: #0056b3;
 }
