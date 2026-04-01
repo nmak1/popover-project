@@ -64,9 +64,9 @@ button.addEventListener('click', () => {
 });
 ```
 Структура HTML 
-html
+```html
 <button id="my-button" class="btn">Нажми меня</button>
-
+```
 Кастомизация  
 Вы можете изменить внешний вид popover, переопределив CSS-классы:
 
