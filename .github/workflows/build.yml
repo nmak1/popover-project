@@ -9,29 +9,43 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup Node.js
+    - name: Use Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
     
     - name: Install dependencies
-      run: npm ci
+      run: |
+        npm install
+        npm install -g wait-on
     
     - name: Build
       run: npm run build
     
-    - name: Run tests
+    - name: Test
       run: |
-        # Для CI нужно запустить сервер на фоне
+        # Запускаем сервер
         npm start &
-        npx wait-on http://localhost:8080
+        
+        # Ждем сервер
+        for i in {1..30}; do
+          if curl -s http://localhost:8080 > /dev/null; then
+            echo "Server is ready"
+            break
+          fi
+          echo "Waiting for server... $i"
+          sleep 2
+        done
+        
+        # Запускаем тесты
         npm test
     
-    - name: Deploy to GitHub Pages
+    - name: Deploy
       uses: peaceiris/actions-gh-pages@v4
       if: github.ref == 'refs/heads/main'
       with:
